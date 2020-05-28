@@ -1,23 +1,19 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[26]:
-
-
+```python
 # permet l'affchage des graphiques dans la continuité du code,
 # et non dans une fenêtre à part
-get_ipython().run_line_magic('matplotlib', 'inline')
+%matplotlib inline
 
 # importations
 from random import randint
 from enum import Enum
 import numpy as np
 import matplotlib.pyplot as plt
+plt.style.use('seaborn-dark')
+plt.rcParams.update({ 'font.size' : 15, 'xtick.labelsize':15, 'ytick.labelsize':15 })
+```
 
 
-# In[27]:
-
-
+```python
 # definition d'une classe Strategy afin d'organiser la récupération
 # des résultats obtenus :
 # > KEEP (garder la porte de départ) = 0
@@ -27,11 +23,10 @@ class Strategy(Enum):
     KEEP = 0
     CHANGE = 1
     ALEA = 2
+```
 
 
-# In[48]:
-
-
+```python
 # Fonction play_game
 # Simule une partie du jeu de Mounty Hall (modifié) en prenant
 # la stratégie à appliquer en paramètre
@@ -75,11 +70,10 @@ def play_game(strategy):
             second_choice = doors[0]
     
     return second_choice == good_door
+```
 
 
-# In[29]:
-
-
+```python
 # Fonction play
 # prends une stratégie à appliquer et un entier itr
 # renvoie une liste de taille itr contenant des 1 et 0
@@ -87,19 +81,30 @@ def play_game(strategy):
 # > 0 s'il a perdu
 def play(strategy, itr):
     return [1 if play_game(strategy) else 0 for i in range(itr)]
+```
 
 
-# In[49]:
-
-
+```python
 plt.bar( [1,2,3], [sum(play(Strategy.KEEP, 1000)), 
                    sum(play(Strategy.CHANGE, 1000)),
-                   sum(play(Strategy.ALEA, 1000))] )
+                   sum(play(Strategy.ALEA, 1000))],
+       tick_label = ["KEEP", "CHANGE", "ALEA"])
+plt.title("Nombre de victoires du joueur en fonction de la\nstratégie appliquée")
+```
 
 
-# In[51]:
 
 
+    Text(0.5, 1.0, 'Nombre de victoires du joueur en fonction de la\nstratégie appliquée')
+
+
+
+
+![png](output_4_1.png)
+
+
+
+```python
 wins_CHANGE = []
 wins_KEEP = []
 wins_ALEA = []
@@ -108,25 +113,35 @@ for turns in samples:
     wins_CHANGE.append(play(Strategy.CHANGE, turns))
     wins_KEEP.append(play(Strategy.KEEP, turns))
     wins_ALEA.append(play(Strategy.ALEA, turns))
+```
 
 
-# In[52]:
-
-
+```python
 figure = plt.figure()
-plt.scatter(samples, [sum(x) for x in wins_CHANGE])
-plt.scatter(samples, [sum(x) for x in wins_KEEP])
-plt.scatter(samples, [sum(x) for x in wins_ALEA])
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
+plt.scatter(samples, [sum(x) for x in wins_CHANGE], label="CHANGE")
+plt.scatter(samples, [sum(x) for x in wins_KEEP], label="KEEP")
+plt.scatter(samples, [sum(x) for x in wins_ALEA], label="ALEA")
+plt.legend(loc='lower right', frameon=True)
+plt.title("Somme de victoires de la stratégie appliquée\nen fonction de la taille de l'échantillon")
+```
 
 
 
 
+    Text(0.5, 1.0, "Somme de victoires de la stratégie appliquée\nen fonction de la taille de l'échantillon")
+
+
+
+
+![png](output_6_1.png)
+
+
+
+```python
+
+```
+
+
+```python
+
+```
